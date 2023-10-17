@@ -1,32 +1,42 @@
 package ontop.challenge.test;
 
 import ontop.challenge.pages.home.HomePage;
+import ontop.challenge.pages.item.ItemPage;
 import ontop.challenge.pages.products.ProductsPage;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class SearchProduct {
 
     private WebDriver driver;
-    private String product = "Iphone 12";
+    private String product = "iPhone 12";
     public String zip = "84043";
+    public String amazonHomePage = "https://www.amazon.com";
 
     @Before
     public void setUp() {
+        HomePage homePage = new HomePage(driver);
         System.setProperty("webdriver.chrome.driver", "src\\driver\\chromedriver.exe");
         driver = new ChromeDriver();
         //open the Amazon homepage
-        driver.get("https://www.amazon.com");
+        homePage.open(amazonHomePage);
     }
 
     @Test
     public void searchIphoneAndValidateResults() {
-        HomePage homePage = new HomePage(driver);
+
 
         //Change location to US (Utah)
-        homePage.changeLocationDeliver(zip);
+        //homePage.changeLocationDeliver(zip);
 
         //Enter a specific product name in the search bar (e.g., "Iphone 12")
         homePage.searchElementByName(product);
@@ -41,19 +51,26 @@ public class SearchProduct {
         productsPage.getItemByIndex(3).click();
 
         //Verify that the product details page is displayed with accurate information.
-
-
+        ItemPage itemPage = new ItemPage(driver);
+        Assert.assertTrue(itemPage.getProductTitle().getText().contains(product));
         //Extract and validate the following details:
 
         //a. Product title
+        String firstProductTitle = itemPage.getProductTitle().getText();
+        System.out.println("First Product Title: " + firstProductTitle);
         //b. Product price
+//        String firstProductPrice = itemPage.getProductPrice().getText();
+//        System.out.println("First Produce Price: " + firstProductPrice);
         //c. Product rating
-        //d. Product description (if available)
+        String firstProductRating = itemPage.getProductRating().getText();
+        System.out.println("First Product Rating: " + firstProductRating);
 
         //Take a Screenshot of the product details page.
+        itemPage.takeScreenshot();
 
         //Capture the URL of the product details page.
-
+        String currentUrl = driver.getCurrentUrl();
+        System.out.println("Current URL: " + currentUrl);
         //Navigate back to the search results page.
 
         //Repeat steps 5-10 for a different product (search another product from the search results page.
