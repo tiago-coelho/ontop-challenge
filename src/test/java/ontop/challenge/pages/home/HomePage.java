@@ -12,13 +12,6 @@ public class HomePage extends BasePage {
         super(driver);
         this.driver = driver;
     }
-
-    public WebElement getLocationDeliverLink() {
-        return driver.findElement(By.id("nav-global-location-popover-link"));
-    }
-    public WebElement getLocationDeliverInput() {
-        return driver.findElement(By.className("GLUX_Full_Width a-declarative"));
-    }
     public WebElement getSearchInput() {
         return driver.findElement(By.id("twotabsearchtextbox"));
     }
@@ -30,10 +23,5 @@ public class HomePage extends BasePage {
     public void searchElementByName(String name) {
         getSearchInput().sendKeys(name);
         getSearchButton().click();
-    }
-
-    public void changeLocationDeliver(String zip) {
-        getLocationDeliverLink().click();
-        getLocationDeliverInput().sendKeys(zip);
     }
 }

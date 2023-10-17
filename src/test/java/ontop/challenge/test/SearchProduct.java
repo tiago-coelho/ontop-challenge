@@ -6,40 +6,29 @@ import ontop.challenge.pages.products.ProductsPage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 
 public class SearchProduct {
 
     private WebDriver driver;
-    private String product = "iPhone 12";
-    public String zip = "84043";
-    public String amazonHomePage = "https://www.amazon.com";
+    private static final String PRODUCT = "iPhone 12";
+    private static final String AMAZON_HOME_PAGE = "https://www.amazon.com";
+    private static final String CHROME_DRIVER_PATH = "src\\driver\\chromedriver.exe";
 
     @Before
     public void setUp() {
-        HomePage homePage = new HomePage(driver);
-        System.setProperty("webdriver.chrome.driver", "src\\driver\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
         driver = new ChromeDriver();
-        //open the Amazon homepage
-        homePage.open(amazonHomePage);
+        driver.get(AMAZON_HOME_PAGE);
     }
 
     @Test
     public void searchIphoneAndValidateResults() {
-
-
-        //Change location to US (Utah)
-        //homePage.changeLocationDeliver(zip);
+        HomePage homePage = new HomePage(driver);
 
         //Enter a specific product name in the search bar (e.g., "Iphone 12")
-        homePage.searchElementByName(product);
+        homePage.searchElementByName(PRODUCT);
 
         ProductsPage productsPage = new ProductsPage(driver);
         //Verify that the search results page is displayed with relevant products.
@@ -52,15 +41,15 @@ public class SearchProduct {
 
         //Verify that the product details page is displayed with accurate information.
         ItemPage itemPage = new ItemPage(driver);
-        Assert.assertTrue(itemPage.getProductTitle().getText().contains(product));
+        Assert.assertTrue(itemPage.getProductTitle().getText().contains(PRODUCT));
         //Extract and validate the following details:
 
         //a. Product title
         String firstProductTitle = itemPage.getProductTitle().getText();
         System.out.println("First Product Title: " + firstProductTitle);
         //b. Product price
-//        String firstProductPrice = itemPage.getProductPrice().getText();
-//        System.out.println("First Produce Price: " + firstProductPrice);
+        //String firstProductPrice = itemPage.getProductPrice().getText();
+        //System.out.println("First Produce Price: " + firstProductPrice);
         //c. Product rating
         String firstProductRating = itemPage.getProductRating().getText();
         System.out.println("First Product Rating: " + firstProductRating);
@@ -72,7 +61,7 @@ public class SearchProduct {
         String currentUrl = driver.getCurrentUrl();
         System.out.println("Current URL: " + currentUrl);
         //Navigate back to the search results page.
-
+        homePage.open(AMAZON_HOME_PAGE);
         //Repeat steps 5-10 for a different product (search another product from the search results page.
 
         //Compare the details of the two products and validate if they are different.
