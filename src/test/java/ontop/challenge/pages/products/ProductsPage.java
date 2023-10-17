@@ -6,17 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ProductsPage extends BasePage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public ProductsPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
     }
 
-    public WebElement getFirstIphoneSearchItem() {
-        return driver.findElement(By.cssSelector(".s-result-list [data-index='4'] span a.a-link-normal.s-no-outline"));
-    }
-    public WebElement getSecondIphoneSearchItem() {
-        return driver.findElement(By.cssSelector(".s-result-list [data-index='5'] span a.a-link-normal.s-no-outline"));
+    // The result list index starts at 3, meaning that to select the first option, use 3; for the second, use 4, and so on.
+    public WebElement getItemByIndex(int index) {
+        return driver.findElement(By.cssSelector(String.format(".s-result-list [data-index='%s'] span a.a-link-normal.s-no-outline", index)));
     }
 }
