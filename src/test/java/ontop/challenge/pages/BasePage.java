@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class BasePage {
     private final WebDriver driver;
+    private int screenshotCount = 1;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -27,9 +28,11 @@ public class BasePage {
 
     public void takeScreenshot() {
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        String fileName = "screenshot-product-" + screenshotCount + ".png";
         try {
-            ImageIO.write(ImageIO.read(screenshot), "png", new File("screenshot.png"));
-            System.out.println("Screenshot saved successfully.");
+            ImageIO.write(ImageIO.read(screenshot), "png", new File(fileName));
+            System.out.println("Screenshot saved successfully as " + fileName);
+            screenshotCount++;
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error saving the screenshot.");
