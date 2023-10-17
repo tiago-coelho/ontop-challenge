@@ -11,6 +11,7 @@ public class SearchProduct {
 
     private WebDriver driver;
     private String product = "Iphone 12";
+    public String zip = "84043";
 
     @Before
     public void setUp() {
@@ -25,7 +26,7 @@ public class SearchProduct {
         HomePage homePage = new HomePage(driver);
 
         //Change location to US (Utah)
-        homePage.changeLocationDeliver("84043");
+        homePage.changeLocationDeliver(zip);
 
         //Enter a specific product name in the search bar (e.g., "Iphone 12")
         homePage.searchElementByName(product);
